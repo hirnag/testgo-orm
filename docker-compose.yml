@@ -4,7 +4,9 @@ services:
     hostname: mysql
     image: mysql:latest
     volumes:
-      - ./mysql/resource:/docker-entrypoint-initdb.d
+      - ./mysql/sql:/docker-entrypoint-initdb.d
+      - ./mysql/conf/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/conf/showProcesslist.sh:/etc/mysql/showProcesslist.sh
     environment:
       MYSQL_DATABASE: root
       MYSQL_ROOT_PASSWORD: password

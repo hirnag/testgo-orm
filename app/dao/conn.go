@@ -1,14 +1,12 @@
 package dao
 
 import (
-	"database/sql"
 	"github.com/volatiletech/sqlboiler/bdb/drivers"
-	"github.com/volatiletech/sqlboiler/boil"
-	modBoil "../models"
-	"fmt"
+	"database/sql"
 )
 
 const (
+	DriverName = "mysql"
 	DbUser = "root"
 	DbPassword = "password"
 	DbName = "test"
@@ -17,24 +15,11 @@ const (
 	DbSslmode = "false"
 )
 
-var db boil.Executor
+func GetDataSourceName() string {
+	return drivers.MySQLBuildQueryString(
+		DbUser,DbPassword,DbName,DbHost,DbPort,DbSslmode)
+}
 
-func Connect() {
-	// DB接続
-	db, err := sql.Open("mysql", drivers.MySQLBuildQueryString(
-		DbUser, DbPassword,DbName,DbHost,DbPort,DbSslmode))
-	if err != nil {
-		return
-	}
-	defer db.Close()
-
-	boil.SetDB(db)
-	users, err := modBoil.UsersG().All()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(modBoil.GetUsers(users))
-
-
+func GetConnection() (*sql.DB, error) {
+	return sql.Open(DriverName, GetDataSourceName())
 }
