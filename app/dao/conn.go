@@ -3,6 +3,7 @@ package dao
 import (
 	"github.com/volatiletech/sqlboiler/bdb/drivers"
 	"database/sql"
+	"github.com/go-xorm/xorm"
 )
 
 const (
@@ -14,6 +15,14 @@ const (
 	DbPort = 3306
 	DbSslmode = "false"
 )
+
+var engine *xorm.Engine
+
+func OpenConnection() {
+	var err error
+	engine, err = xorm.NewEngine(DriverName, GetDataSourceName())
+	if err != nil { panic(err) }
+}
 
 func GetDataSourceName() string {
 	return drivers.MySQLBuildQueryString(

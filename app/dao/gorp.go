@@ -2,11 +2,11 @@ package dao
 
 import (
 	"github.com/go-gorp/gorp"
-	modGorp "../models-gorp"
+	modNatv "../models-native"
 )
 
 func GorpSelect(db gorp.DbMap) []interface{} {
-	users, err := db.Select(modGorp.User{}, "select * from users")
+	users, err := db.Select(modNatv.User{}, "select * from users")
 	if err != nil { panic(err) }
 	return users
 }

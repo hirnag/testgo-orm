@@ -6,13 +6,12 @@ import (
 	modBoil "../models-boil"
 )
 
-func BoilSelect(db boil.Executor) {
-
+func BoilSelect(db boil.Executor) []*modBoil.User {
 	boil.SetDB(db)
-	_, err := modBoil.UsersG().All()
+	users, err := modBoil.UsersG().All()
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
 	}
-
+	return users
 }
